@@ -24,7 +24,7 @@ public class JsonNode {
         this.isAbsolute = false;
         this.jsonMap = new HashMap<>();
 
-        readRessource(path);
+        readResource(path);
     }
 
     // Constructor with isAbsolute path
@@ -35,7 +35,7 @@ public class JsonNode {
         this.jsonMap = new HashMap<>();
 
         if (isAbsolute) readAbsolute(path);
-        else readRessource(path);
+        else readResource(path);
     }
 
     // Constructor with url and path
@@ -64,8 +64,8 @@ public class JsonNode {
         this.jsonMap = jsonMap;
     }
 
-    // Read json from ressource path
-    private void readRessource(String path) {
+    // Read json from resource path
+    private void readResource(String path) {
         try {
             decodeJson(new BufferedReader(new InputStreamReader(Objects.requireNonNull(getClass().getResourceAsStream(path)))));
         } catch (Exception e) {
@@ -98,9 +98,7 @@ public class JsonNode {
         String line;
 
         // Read each line from the BufferedReader and append it to the StringBuilder
-        while ((line = bufferedReader.readLine()) != null) {
-            jsonString.append(line);
-        }
+        while ((line = bufferedReader.readLine()) != null) jsonString.append(line);
 
         // Convert the accumulated JSON string to a trimmed String
         String content = jsonString.toString().trim();
@@ -121,12 +119,10 @@ public class JsonNode {
                 // Remove quotes from the key and trim any leading/trailing spaces
                 String key = keyValue[0].trim().replaceAll("\"", "");
 
-                // Remove quotes from the value, trim any leading/trailing spaces,
-                // and create a JsonValue object (assuming such a class exists)
+                // Remove quotes from the value, trim any leading/trailing spaces and create a JsonValue object (assuming such a class exists)
                 JsonValue value = new JsonValue(keyValue[1].trim().replaceAll("\"", ""));
 
-                // Assuming jsonMap is a Map<String, JsonValue> to store key-value pairs,
-                // put the key and value into the map
+                // Assuming jsonMap is a Map<String, JsonValue> to store key-value pairs, put the key and value into the map
                 jsonMap.put(key, value);
             }
         }
@@ -395,7 +391,7 @@ public class JsonNode {
         for (HashMap<String, JsonValue> jsonMap : jsonMaps) this.jsonMap.putAll(jsonMap);
     }
 
-    // Remove
+    // Delete
     public void remove(String key) {
         jsonMap.remove(key);
     }
@@ -404,7 +400,6 @@ public class JsonNode {
         for (String key : keys) jsonMap.remove(key);
     }
 
-    // Clear
     public void clear() {
         jsonMap.clear();
     }

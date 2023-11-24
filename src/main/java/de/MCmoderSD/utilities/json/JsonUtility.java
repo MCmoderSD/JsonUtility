@@ -5,8 +5,9 @@ import java.util.HashMap;
 @SuppressWarnings("unused")
 public class JsonUtility {
 
-    private final HashMap<String, JsonNode> jsonCache;
     // Attributes
+    private final HashMap<String, JsonNode> jsonCache;
+
     private String url;
     private boolean isAbsolute;
 
@@ -149,14 +150,6 @@ public class JsonUtility {
         this.url = url;
     }
 
-    public boolean isAbsolute() {
-        return isAbsolute;
-    }
-
-    public void setAbsolute(boolean isAbsolute) {
-        this.isAbsolute = isAbsolute;
-    }
-
     public boolean isEmpty() {
         return jsonCache.isEmpty();
     }
@@ -177,6 +170,14 @@ public class JsonUtility {
     public void setJsonCache(HashMap<String, JsonNode>[] jsonCaches) {
         this.jsonCache.clear();
         for (HashMap<String, JsonNode> jsonCache : jsonCaches) this.jsonCache.putAll(jsonCache);
+    }
+
+    public boolean isAbsolute() {
+        return isAbsolute;
+    }
+
+    public void setAbsolute(boolean isAbsolute) {
+        this.isAbsolute = isAbsolute;
     }
 
     // Remove

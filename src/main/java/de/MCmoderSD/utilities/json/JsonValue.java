@@ -3,7 +3,7 @@ package de.MCmoderSD.utilities.json;
 @SuppressWarnings("unused")
 public class JsonValue {
 
-    // Attributes
+    // Attribute
     private final String value;
 
     // Constructor
