@@ -93,19 +93,40 @@ public class JsonNode {
 
     // Decode json
     private void decodeJson(BufferedReader bufferedReader) throws IOException {
+        // Initialize a StringBuilder to store the JSON string
         StringBuilder jsonString = new StringBuilder();
         String line;
-        while ((line = bufferedReader.readLine()) != null) jsonString.append(line);
 
+        // Read each line from the BufferedReader and append it to the StringBuilder
+        while ((line = bufferedReader.readLine()) != null) {
+            jsonString.append(line);
+        }
+
+        // Convert the accumulated JSON string to a trimmed String
         String content = jsonString.toString().trim();
-        content = content.substring(1, content.length() - 1); // Remove outer curly braces
+
+        // Remove outer curly braces
+        content = content.substring(1, content.length() - 1);
+
+        // Split the content into key-value pairs based on comma and optional whitespace
         String[] keyValuePairs = content.split(",\\s*");
 
+        // Iterate through the key-value pairs
         for (String pair : keyValuePairs) {
+            // Split each pair into key and value based on colon ':'
             String[] keyValue = pair.split(":");
+
+            // Check if the key-value pair has both key and value
             if (keyValue.length == 2) {
-                String key = keyValue[0].trim().replaceAll("\"", ""); // Remove quotes from the key
-                JsonValue value = new JsonValue(keyValue[1].trim().replaceAll("\"", "")); // Remove quotes from the value
+                // Remove quotes from the key and trim any leading/trailing spaces
+                String key = keyValue[0].trim().replaceAll("\"", "");
+
+                // Remove quotes from the value, trim any leading/trailing spaces,
+                // and create a JsonValue object (assuming such a class exists)
+                JsonValue value = new JsonValue(keyValue[1].trim().replaceAll("\"", ""));
+
+                // Assuming jsonMap is a Map<String, JsonValue> to store key-value pairs,
+                // put the key and value into the map
                 jsonMap.put(key, value);
             }
         }
