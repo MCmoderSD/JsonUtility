@@ -145,11 +145,6 @@ public class JsonUtility {
         return url;
     }
 
-    // Setter
-    public void setURL(String url) {
-        this.url = url;
-    }
-
     public boolean isEmpty() {
         return jsonCache.isEmpty();
     }
@@ -162,22 +157,27 @@ public class JsonUtility {
         return jsonCache;
     }
 
+    public boolean isAbsolute() {
+        return isAbsolute;
+    }
+
     public void setJsonCache(HashMap<String, JsonNode> jsonCache) {
         this.jsonCache.clear();
         this.jsonCache.putAll(jsonCache);
     }
 
-    public void setJsonCache(HashMap<String, JsonNode>[] jsonCaches) {
-        this.jsonCache.clear();
-        for (HashMap<String, JsonNode> jsonCache : jsonCaches) this.jsonCache.putAll(jsonCache);
-    }
-
-    public boolean isAbsolute() {
-        return isAbsolute;
+    // Setter
+    public void setURL(String url) {
+        this.url = url;
     }
 
     public void setAbsolute(boolean isAbsolute) {
         this.isAbsolute = isAbsolute;
+    }
+
+    public void setJsonCache(HashMap<String, JsonNode>[] jsonCaches) {
+        this.jsonCache.clear();
+        for (HashMap<String, JsonNode> jsonCache : jsonCaches) this.jsonCache.putAll(jsonCache);
     }
 
     // Remove
