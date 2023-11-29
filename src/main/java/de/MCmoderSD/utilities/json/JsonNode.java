@@ -1,5 +1,6 @@
 package de.MCmoderSD.utilities.json;
 
+import java.awt.*;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -190,6 +191,10 @@ public class JsonNode {
         return jsonMap.get(key).asValue();
     }
 
+    public Color getAsColor(String key) {
+        return jsonMap.get(key).asColor();
+    }
+
     // Setter
     public void set(String key, JsonValue value) {
         jsonMap.put(key, value);
@@ -284,6 +289,14 @@ public class JsonNode {
     }
 
     public void set(String[] keys, JsonNode[] values) {
+        for (int i = 0; i < keys.length; i++) jsonMap.put(keys[i], new JsonValue(String.valueOf(values[i])));
+    }
+
+    public void set(String key, Color value) {
+        jsonMap.put(key, new JsonValue(String.valueOf(value)));
+    }
+
+    public void set(String[] keys, Color[] values) {
         for (int i = 0; i < keys.length; i++) jsonMap.put(keys[i], new JsonValue(String.valueOf(values[i])));
     }
 

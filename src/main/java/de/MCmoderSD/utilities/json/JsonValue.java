@@ -1,5 +1,7 @@
 package de.MCmoderSD.utilities.json;
 
+import java.awt.*;
+
 @SuppressWarnings("unused")
 public class JsonValue {
 
@@ -54,5 +56,9 @@ public class JsonValue {
 
     public JsonValue asValue() {
         return this;
+    }
+
+    public Color asColor() {
+        return new Color(Integer.parseInt(value.substring(1), 16));
     }
 }
