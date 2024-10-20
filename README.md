@@ -8,11 +8,13 @@ A simple utility to read json files and convert them into a JsonNode.
 
 ### Maven
 ```xml
+<dependencies>
     <dependency>
         <groupId>de.MCmoderSD</groupId>
         <artifactId>json</artifactId>
         <version>1.0.0</version>
     </dependency>
+</dependencies>
 ```
 
 ### Usage Example
