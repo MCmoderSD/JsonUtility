@@ -1,30 +1,10 @@
-# Json Utility
-
-## Description
-
-A simple utility to read json files and convert them into a JsonNode.
-
-## Usage
-
-### Maven
-```xml
-<dependencies>
-    <dependency>
-        <groupId>de.MCmoderSD</groupId>
-        <artifactId>json</artifactId>
-        <version>1.1.0</version>
-    </dependency>
-</dependencies>
-```
-
-### Usage Example
-```java
 import com.fasterxml.jackson.databind.JsonNode;
 import de.MCmoderSD.json.JsonUtility;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
 
+@SuppressWarnings("ALL")
 public class Main {
 
     public static void main(String[] args) {
@@ -61,4 +41,3 @@ public class Main {
         }
     }
 }
-```
