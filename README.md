@@ -12,7 +12,7 @@ A simple utility to read json files and convert them into a JsonNode.
     <dependency>
         <groupId>de.MCmoderSD</groupId>
         <artifactId>json</artifactId>
-        <version>1.1.0</version>
+        <version>1.1.1</version>
     </dependency>
 </dependencies>
 ```

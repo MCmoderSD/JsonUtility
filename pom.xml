@@ -6,32 +6,24 @@
 
     <groupId>de.MCmoderSD</groupId>
     <artifactId>json</artifactId>
-    <version>1.1.0</version>
+    <version>1.1.1</version>
 
     <name>JsonUtility</name>
     <description>A simple utility for loading json files</description>
 
     <distributionManagement>
         <repository>
-            <id>OpenAI-Utility</id>
+            <id>JsonUtility</id>
             <name>GitHub MCmoderSD Apache Maven Packages</name>
             <url>https://maven.pkg.github.com/MCmoderSD/JsonUtility</url>
         </repository>
     </distributionManagement>
 
     <properties>
-        <gpg.skip>true</gpg.skip>
         <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>21</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
-
-    <repositories>
-        <repository>
-            <id>JsonUtility</id>
-            <url>https://maven.pkg.github.com/MCmoderSD/JsonUtility</url>
-        </repository>
-    </repositories>
 
     <dependencies>
         <dependency>
