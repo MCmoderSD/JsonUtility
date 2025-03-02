@@ -1,6 +1,4 @@
 # Json Utility
-[![](https://jitpack.io/v/MCmoderSD/JsonUtility.svg)](https://jitpack.io/#MCmoderSD/JsonUtility)
-
 
 ## Description
 A simple utility to read json files and convert them into a JsonNode.
@@ -9,21 +7,22 @@ A simple utility to read json files and convert them into a JsonNode.
 ## Usage
 
 ### Maven
-Make sure you have the JitPack repository added to your `pom.xml` file:
+Make sure you have my Sonatype Nexus OSS repository added to your `pom.xml` file:
 ```xml
 <repositories>
     <repository>
-        <id>jitpack.io</id>
-        <url>https://jitpack.io</url>
+        <id>Nexus</id>
+        <name>Sonatype Nexus</name>
+        <url>https://mcmodersd.de/nexus/repository/maven-releases/</url>
     </repository>
 </repositories>
 ```
 Add the dependency to your `pom.xml` file:
 ```xml
 <dependency>
-    <groupId>com.github.MCmoderSD</groupId>
+    <groupId>de.MCmoderSD</groupId>
     <artifactId>JsonUtility</artifactId>
-    <version>1.1.1</version>
+    <version>1.2.0</version>
 </dependency>
 ```
 
