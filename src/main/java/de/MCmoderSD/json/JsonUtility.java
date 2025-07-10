@@ -61,7 +61,6 @@ public class JsonUtility {
     public JsonNode load(String path, boolean isAbsolute) throws IOException, URISyntaxException {
 
         // Check Path
-        if (path == null) throw new NullPointerException("Path cannot be null");
         if (path.isBlank()) throw new IllegalArgumentException("Path cannot be blank");
 
         // Check Cache
@@ -100,7 +99,6 @@ public class JsonUtility {
     public JsonNode reload(String path, boolean isAbsolute) throws IOException, URISyntaxException {
 
         // Check Path
-        if (path == null) throw new NullPointerException("Path cannot be null");
         if (path.isBlank()) throw new IllegalArgumentException("Path cannot be blank");
 
         // Load JSON

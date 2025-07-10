@@ -17,11 +17,11 @@ public class Main {
             // Load from resources folder
             JsonNode resource = jsonUtility.load("/config.json");
 
+            // Load from URL
+            JsonNode url = jsonUtility.load("https://raw.githubusercontent.com/MCmoderSD/JsonUtility/refs/heads/master/src/test/resources/config.json");
+
             // Load from absolute path
             JsonNode absolute = jsonUtility.load("C:/Users/username/Desktop/config.json", true);
-
-            // Load from URL
-            JsonNode url = jsonUtility.load("https://example.com/config.json");
 
         } catch (IOException | URISyntaxException e) {
             System.err.println("Error: " + e.getMessage());
