@@ -7,7 +7,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.HashMap;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Utility class for loading, caching, and managing JSON files.
@@ -19,14 +19,14 @@ public class JsonUtility {
     private static JsonUtility instance;
 
     // Attributes
-    private final HashMap<String, JsonNode> cache;
+    private final ConcurrentHashMap<String, JsonNode> cache;
     private final ObjectMapper objectMapper;
 
     /**
      * Private constructor to initialize the cache and ObjectMapper.
      */
     private JsonUtility() {
-        cache = new HashMap<>();
+        cache = new ConcurrentHashMap<>();
         objectMapper = new ObjectMapper();
     }
 
@@ -156,7 +156,7 @@ public class JsonUtility {
      * Returns the full cache.
      * @return the cache map
      */
-    public HashMap<String, JsonNode> get() {
+    public ConcurrentHashMap<String, JsonNode> get() {
         return cache;
     }
 

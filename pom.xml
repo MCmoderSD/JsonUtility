@@ -6,7 +6,7 @@
 
     <groupId>de.MCmoderSD</groupId>
     <artifactId>JsonUtility</artifactId>
-    <version>1.3.2</version>
+    <version>1.3.3</version>
 
     <name>Json Utility</name>
     <description>A simple utility for loading json files</description>
