@@ -1,5 +1,6 @@
-import com.fasterxml.jackson.databind.JsonNode;
 import de.MCmoderSD.json.JsonUtility;
+
+import tools.jackson.databind.JsonNode;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -24,7 +25,7 @@ public class Main {
             JsonNode absolute = jsonUtility.load("C:/Users/username/Desktop/config.json", true);
 
         } catch (IOException | URISyntaxException e) {
-            System.err.println("Error: " + e.getMessage());
+            throw new RuntimeException("Failed to load JSON: " + e.getMessage(), e);
         }
     }
 }
