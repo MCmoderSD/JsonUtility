@@ -3,7 +3,6 @@
 ## Description
 A simple utility to read json files and convert them into a JsonNode.
 
-
 ## Usage
 
 ### Maven
@@ -22,14 +21,15 @@ Add the dependency to your `pom.xml` file:
 <dependency>
     <groupId>de.MCmoderSD</groupId>
     <artifactId>JsonUtility</artifactId>
-    <version>1.3.3</version>
+    <version>1.3.4</version>
 </dependency>
 ```
 
 ### Usage Example
 ```java
-import com.fasterxml.jackson.databind.JsonNode;
 import de.MCmoderSD.json.JsonUtility;
+
+import tools.jackson.databind.JsonNode;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -47,14 +47,14 @@ public class Main {
             // Load from resources folder
             JsonNode resource = jsonUtility.load("/config.json");
 
+            // Load from URL
+            JsonNode url = jsonUtility.load("https://raw.githubusercontent.com/MCmoderSD/JsonUtility/refs/heads/master/src/test/resources/config.json");
+
             // Load from absolute path
             JsonNode absolute = jsonUtility.load("C:/Users/username/Desktop/config.json", true);
 
-            // Load from URL
-            JsonNode url = jsonUtility.load("https://example.com/config.json");
-
         } catch (IOException | URISyntaxException e) {
-            System.err.println("Error: " + e.getMessage());
+            throw new RuntimeException("Failed to load JSON: " + e.getMessage(), e);
         }
     }
 }
