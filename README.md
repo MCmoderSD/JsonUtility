@@ -1,7 +1,7 @@
 # Json Utility
 
 ## Description
-A simple utility to read json files and convert them into a JsonNode.
+A simple utility to read JSON files and convert them into a JsonNode.
 
 ## Usage
 
@@ -21,7 +21,7 @@ Add the dependency to your `pom.xml` file:
 <dependency>
     <groupId>de.MCmoderSD</groupId>
     <artifactId>JsonUtility</artifactId>
-    <version>1.3.4</version>
+    <version>1.4.0</version>
 </dependency>
 ```
 
