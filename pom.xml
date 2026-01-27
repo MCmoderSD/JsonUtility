@@ -6,7 +6,7 @@
 
     <groupId>de.MCmoderSD</groupId>
     <artifactId>JsonUtility</artifactId>
-    <version>1.4.0</version>
+    <version>1.4.1</version>
 
     <name>Json Utility</name>
     <description>A simple utility for loading JSON files</description>
@@ -28,8 +28,8 @@
     <dependencies>
         <dependency>
             <groupId>tools.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
-            <version>3.0.3</version>
+            <artifactId>jackson-core</artifactId>
+            <version>3.0.4</version>
             <scope>compile</scope>
         </dependency>
     </dependencies>
