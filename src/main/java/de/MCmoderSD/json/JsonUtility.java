@@ -1,5 +1,6 @@
 package de.MCmoderSD.json;
 
+import de.MCmoderSD.tools.GZIP;
 import tools.jackson.databind.JsonNode;
 import tools.jackson.databind.ObjectMapper;
 
@@ -7,7 +8,6 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.HashMap;
 import java.util.concurrent.ConcurrentHashMap;
 
 @SuppressWarnings("unused")
@@ -17,7 +17,7 @@ public class JsonUtility {
     private static JsonUtility instance;
 
     // Attributes
-    private final ConcurrentHashMap<String, JsonNode> cache;
+    private final ConcurrentHashMap<String, byte[]> cache;
     private final ObjectMapper objectMapper;
 
     // Constructor
@@ -30,6 +30,23 @@ public class JsonUtility {
     public static JsonUtility getInstance() {
         if (instance == null) instance = new JsonUtility();
         return instance;
+    }
+
+    // Helper Methods
+    private static byte[] deflate(JsonNode jsonNode) {
+        try {
+            return GZIP.deflateObject(jsonNode);
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to deflate JSON object", e);
+        }
+    }
+
+    private static JsonNode inflate(byte[] compressedData) {
+        try {
+            return (JsonNode) GZIP.inflateObject(compressedData);
+        } catch (IOException | ClassNotFoundException e) {
+            throw new RuntimeException("Failed to inflate JSON object", e);
+        }
     }
 
     // Read Methods
@@ -77,7 +94,7 @@ public class JsonUtility {
         if (resourcePath == null || resourcePath.isBlank()) throw new IllegalArgumentException("Resource path cannot be null or blank");
 
         // Check Cache
-        if (cache.containsKey(resourcePath)) return cache.get(resourcePath);
+        if (cache.containsKey(resourcePath)) return inflate(cache.get(resourcePath));
 
         // Load JSON and cache it
         JsonNode jsonNode = readResource(resourcePath);
@@ -86,7 +103,7 @@ public class JsonUtility {
         if (jsonNode == null) throw new RuntimeException("Failed to load JSON from resource: " + resourcePath);
 
         // Cache
-        cache.put(resourcePath, jsonNode);
+        cache.put(resourcePath, deflate(jsonNode));
 
         // Return JSON
         return jsonNode;
@@ -98,7 +115,7 @@ public class JsonUtility {
         if (url == null || url.isBlank()) throw new IllegalArgumentException("URL cannot be null or blank");
 
         // Check Cache
-        if (cache.containsKey(url)) return cache.get(url);
+        if (cache.containsKey(url)) return inflate(cache.get(url));
 
         // Load JSON and cache it
         JsonNode jsonNode = readURL(url);
@@ -107,7 +124,7 @@ public class JsonUtility {
         if (jsonNode == null) throw new RuntimeException("Failed to load JSON from URL: " + url);
 
         // Cache
-        cache.put(url, jsonNode);
+        cache.put(url, deflate(jsonNode));
 
         // Return JSON
         return jsonNode;
@@ -119,7 +136,7 @@ public class JsonUtility {
         if (filePath == null || filePath.isBlank()) throw new IllegalArgumentException("File path cannot be null or blank");
 
         // Check Cache
-        if (cache.containsKey(filePath)) return cache.get(filePath);
+        if (cache.containsKey(filePath)) return inflate(cache.get(filePath));
 
         // Load JSON and cache it
         JsonNode jsonNode = readFile(filePath);
@@ -128,7 +145,7 @@ public class JsonUtility {
         if (jsonNode == null) throw new RuntimeException("Failed to load JSON from file: " + filePath);
 
         // Cache
-        cache.put(filePath, jsonNode);
+        cache.put(filePath, deflate(jsonNode));
 
         // Return JSON
         return jsonNode;
@@ -156,10 +173,6 @@ public class JsonUtility {
     }
 
     // Getter
-    public HashMap<String, JsonNode> getCache() {
-        return new HashMap<>(cache);
-    }
-
     public int size() {
         return cache.size();
     }
