@@ -7,12 +7,10 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.HashMap;
 import java.util.concurrent.ConcurrentHashMap;
 
-/**
- * Utility class for loading, caching, and managing JSON files.
- */
-@SuppressWarnings("ALL")
+@SuppressWarnings("unused")
 public class JsonUtility {
 
     // Singleton instance
@@ -22,195 +20,151 @@ public class JsonUtility {
     private final ConcurrentHashMap<String, JsonNode> cache;
     private final ObjectMapper objectMapper;
 
-    /**
-     * Private constructor to initialize the cache and ObjectMapper.
-     */
+    // Constructor
     private JsonUtility() {
         cache = new ConcurrentHashMap<>();
         objectMapper = new ObjectMapper();
     }
 
-    /**
-     * Returns the singleton instance of JsonUtility.
-     * @return the singleton instance
-     */
+    // Get Singleton Instance
     public static JsonUtility getInstance() {
         if (instance == null) instance = new JsonUtility();
         return instance;
     }
 
-    /**
-     * Loads a JSON from the specified path.
-     * @param path the path to the JSON
-     * @return the JsonNode object
-     * @throws IOException if an I/O error occurs
-     * @throws URISyntaxException if the path is invalid
-     */
-    public JsonNode load(String path) throws IOException, URISyntaxException {
-        return load(path, false);
+    // Read Methods
+    private JsonNode readResource(String resourcePath) {
+
+        // Load JSON from Resource
+        try (var resource = JsonUtility.class.getResourceAsStream(resourcePath)) {
+
+            // Check if resource exists
+            if (resource == null) throw new IOException("Resource not found: " + resourcePath);
+
+            // Parse and return JSON
+            return objectMapper.readTree(resource);
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to load JSON from resource: " + resourcePath, e);
+        }
     }
 
-    /**
-     * Loads a JSON from the specified path, with option to treat it as absolute.
-     * @param path the path to the JSON
-     * @param isAbsolute true if the path is absolute, false if resource path
-     * @return the JsonNode object
-     * @throws IOException if an I/O error occurs
-     * @throws URISyntaxException if the path is invalid
-     */
-    public JsonNode load(String path, boolean isAbsolute) throws IOException, URISyntaxException {
+    private JsonNode readURL(String url) {
 
-        // Check Path
-        if (path.isBlank()) throw new IllegalArgumentException("Path cannot be blank");
+        // Load JSON from URL
+        try (var stream = new URI(url).toURL().openStream()) {
+            return objectMapper.readTree(stream);
+        } catch (IOException | URISyntaxException e) {
+            throw new RuntimeException("Failed to load JSON from URL: " + url, e);
+        }
+    }
+
+    private JsonNode readFile(String filePath) {
+
+        // Load JSON from File
+        File file = new File(filePath);
+
+        // Check if file exists
+        if (!file.exists()) throw new RuntimeException("File not found: " + filePath);
+
+        // Parse and return JSON
+        return objectMapper.readTree(file);
+    }
+
+    // Load Methods
+    public JsonNode loadResource(String resourcePath) {
+
+        // Check Parameters
+        if (resourcePath == null || resourcePath.isBlank()) throw new IllegalArgumentException("Resource path cannot be null or blank");
 
         // Check Cache
-        if (cache.containsKey(path)) return cache.get(path);
+        if (cache.containsKey(resourcePath)) return cache.get(resourcePath);
 
-        // Load JSON
-        JsonNode json = reload(path, isAbsolute);
+        // Load JSON and cache it
+        JsonNode jsonNode = readResource(resourcePath);
 
-        // Check if JSON is null
-        if (json == null) throw new RuntimeException("Failed to load JSON: " + path);
-        else cache.put(path, json);
+        // Check if JSON was loaded successfully
+        if (jsonNode == null) throw new RuntimeException("Failed to load JSON from resource: " + resourcePath);
 
-        // Return loaded JSON
-        return json;
+        // Cache
+        cache.put(resourcePath, jsonNode);
+
+        // Return JSON
+        return jsonNode;
     }
 
-    /**
-     * Reloads a JSON from the specified path.
-     * @param path the path to the JSON
-     * @return the JsonNode object
-     * @throws IOException if an I/O error occurs
-     * @throws URISyntaxException if the path is invalid
-     */
-    public JsonNode reload(String path) throws IOException, URISyntaxException {
-        return reload(path, false);
+    public JsonNode loadURL(String url) {
+
+        // Check Parameters
+        if (url == null || url.isBlank()) throw new IllegalArgumentException("URL cannot be null or blank");
+
+        // Check Cache
+        if (cache.containsKey(url)) return cache.get(url);
+
+        // Load JSON and cache it
+        JsonNode jsonNode = readURL(url);
+
+        // Check if JSON was loaded successfully
+        if (jsonNode == null) throw new RuntimeException("Failed to load JSON from URL: " + url);
+
+        // Cache
+        cache.put(url, jsonNode);
+
+        // Return JSON
+        return jsonNode;
     }
 
-    /**
-     * Reloads a JSON from the specified path, with option to treat it as absolute.
-     * @param path the path to the JSON
-     * @param isAbsolute true if the path is absolute, false if resource path
-     * @return the JsonNode object
-     * @throws IOException if an I/O error occurs
-     * @throws URISyntaxException if the path is invalid
-     */
-    public JsonNode reload(String path, boolean isAbsolute) throws IOException, URISyntaxException {
+    public JsonNode loadFile(String filePath) {
 
-        // Check Path
-        if (path.isBlank()) throw new IllegalArgumentException("Path cannot be blank");
+        // Check Parameters
+        if (filePath == null || filePath.isBlank()) throw new IllegalArgumentException("File path cannot be null or blank");
 
-        // Load JSON
-        if (isAbsolute) return objectMapper.readTree(new File(path));
-        else if (path.startsWith("http://") || path.startsWith("https://")) return objectMapper.readTree(new URI(path).toURL().openStream());
-        else return objectMapper.readTree(JsonUtility.class.getResourceAsStream(path));
+        // Check Cache
+        if (cache.containsKey(filePath)) return cache.get(filePath);
+
+        // Load JSON and cache it
+        JsonNode jsonNode = readFile(filePath);
+
+        // Check if JSON was loaded successfully
+        if (jsonNode == null) throw new RuntimeException("Failed to load JSON from file: " + filePath);
+
+        // Cache
+        cache.put(filePath, jsonNode);
+
+        // Return JSON
+        return jsonNode;
     }
 
-    /**
-     * Adds a new entry to the cache.
-     * @param path the key
-     * @param jsonNode the value
-     * @return the previous value associated with the key
-     */
-    public JsonNode add(String path, JsonNode jsonNode) {
-        return cache.put(path, jsonNode);
+    // Reload Methods
+    public JsonNode reloadResource(String resourcePath) {
+        cache.remove(resourcePath);
+        return loadResource(resourcePath);
     }
 
-    /**
-     * Replaces an entry in the cache.
-     * @param path the key
-     * @param jsonNode the new value
-     * @return the old value replaced
-     */
-    public JsonNode replace(String path, JsonNode jsonNode) {
-        return cache.replace(path, jsonNode);
+    public JsonNode reloadURL(String url) {
+        cache.remove(url);
+        return loadURL(url);
     }
 
-    /**
-     * Removes an entry from the cache by path.
-     * @param path the key
-     * @return the removed JsonNode
-     */
-    public JsonNode remove(String path) {
-        return cache.remove(path);
+    public JsonNode reloadFile(String filePath) {
+        cache.remove(filePath);
+        return loadFile(filePath);
     }
 
-    /**
-     * Removes an entry from the cache by JsonNode.
-     * @param jsonNode the value to remove
-     * @return the removed JsonNode
-     */
-    public JsonNode remove(JsonNode jsonNode) {
-        return cache.remove(get(jsonNode));
-    }
-
-    /**
-     * Clears all cached entries.
-     */
+    // Setter
     public void clear() {
         cache.clear();
     }
 
-    /**
-     * Returns the full cache.
-     * @return the cache map
-     */
-    public ConcurrentHashMap<String, JsonNode> get() {
-        return cache;
+    // Getter
+    public HashMap<String, JsonNode> getCache() {
+        return new HashMap<>(cache);
     }
 
-    /**
-     * Gets the JsonNode by path.
-     * @param path the key
-     * @return the associated JsonNode or null if not found
-     */
-    public JsonNode get(String path) {
-        if (contains(path)) return cache.get(path);
-        else return null;
-    }
-
-    /**
-     * Gets the path associated with the JsonNode.
-     * @param jsonNode the value
-     * @return the associated path or null
-     */
-    public String get(JsonNode jsonNode) {
-        if (contains(jsonNode)) for (String path : cache.keySet()) if (cache.get(path).equals(jsonNode)) return path;
-        return null;
-    }
-
-    /**
-     * Checks if the path exists in the cache.
-     * @param path the key
-     * @return true if exists, false otherwise
-     */
-    public boolean contains(String path) {
-        return cache.containsKey(path);
-    }
-
-    /**
-     * Checks if the JsonNode exists in the cache.
-     * @param jsonNode the value
-     * @return true if exists, false otherwise
-     */
-    public boolean contains(JsonNode jsonNode) {
-        return cache.containsValue(jsonNode);
-    }
-
-    /**
-     * Checks if the cache is empty.
-     * @return true if empty, false otherwise
-     */
-    public boolean isEmpty() {
-        return cache.isEmpty();
-    }
-
-    /**
-     * Returns the size of the cache.
-     * @return the number of cached entries
-     */
     public int size() {
         return cache.size();
+    }
+
+    public boolean isEmpty() {
+        return cache.isEmpty();
     }
 }

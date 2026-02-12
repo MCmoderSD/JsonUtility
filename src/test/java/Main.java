@@ -1,28 +1,22 @@
 import de.MCmoderSD.json.JsonUtility;
-
 import tools.jackson.databind.JsonNode;
 
-import java.io.IOException;
-import java.net.URISyntaxException;
-
-@SuppressWarnings("ALL")
 void main() {
 
-    // Create an instance of JsonUtility
+    // Get JsonUtility instance
     JsonUtility jsonUtility = JsonUtility.getInstance();
 
-    try {
+    // Load JSON from Resource
+    JsonNode resourceJson = jsonUtility.loadResource("/config.json");
 
-        // Load from resources folder
-        JsonNode resource = jsonUtility.load("/config.json");
+    // Load JSON from URL
+    JsonNode urlJson = jsonUtility.loadURL("https://raw.githubusercontent.com/MCmoderSD/JsonUtility/refs/heads/master/src/test/resources/config.json");
 
-        // Load from URL
-        JsonNode url = jsonUtility.load("https://raw.githubusercontent.com/MCmoderSD/JsonUtility/refs/heads/master/src/test/resources/config.json");
+    // Load JSON from File
+    JsonNode fileJson = jsonUtility.loadFile("src/test/resources/config.json");
 
-        // Load from absolute path
-        JsonNode absolute = jsonUtility.load("C:/Users/username/Desktop/config.json", true);
-
-    } catch (IOException | URISyntaxException e) {
-        throw new RuntimeException("Failed to load JSON: " + e.getMessage(), e);
-    }
+    // Print loaded JSON
+    System.out.println("Resource JSON: \n" + resourceJson.toPrettyString());
+    System.out.println("\nURL JSON: \n" + urlJson.toPrettyString());
+    System.out.println("\nFile JSON: \n" + fileJson.toPrettyString());
 }
