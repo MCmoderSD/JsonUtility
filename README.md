@@ -51,8 +51,8 @@ void main() {
     JsonNode fileJson = jsonUtility.loadFile("src/test/resources/config.json");
 
     // Print loaded JSON
-    System.out.println("Resource JSON: \n" + resourceJson.toPrettyString());
-    System.out.println("\nURL JSON: \n" + urlJson.toPrettyString());
-    System.out.println("\nFile JSON: \n" + fileJson.toPrettyString());
+    IO.println("Resource JSON: \n" + resourceJson.toPrettyString());
+    IO.println("\nURL JSON: \n" + urlJson.toPrettyString());
+    IO.println("\nFile JSON: \n" + fileJson.toPrettyString());
 }
 ```
