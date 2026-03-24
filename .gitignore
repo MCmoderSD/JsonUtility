@@ -4,12 +4,6 @@
 *.iml
 *.ipr
 
-### Docs ###
-docs/java/
-
-### artifacts ###
-out/artifacts/
-
 ### Target ###
 target/
 !.mvn/wrapper/maven-wrapper.jar
