@@ -1,5 +1,6 @@
 package de.MCmoderSD.json;
 
+import de.MCmoderSD.tools.GZIP;
 import tools.jackson.databind.JsonNode;
 import tools.jackson.databind.ObjectMapper;
 
@@ -8,8 +9,6 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.concurrent.ConcurrentHashMap;
-
-import static de.MCmoderSD.tools.GZIP.*;
 
 @SuppressWarnings("unused")
 public class JsonUtility {
@@ -36,7 +35,7 @@ public class JsonUtility {
     // Helper Methods
     private static byte[] deflate(JsonNode jsonNode) {
         try {
-            return deflateObject(jsonNode);
+            return GZIP.deflateObject(jsonNode);
         } catch (IOException e) {
             throw new RuntimeException("Failed to deflate JSON object", e);
         }
@@ -44,7 +43,7 @@ public class JsonUtility {
 
     private static JsonNode inflate(byte[] compressedData) {
         try {
-            return (JsonNode) inflateObject(compressedData);
+            return (JsonNode) GZIP.inflateObject(compressedData);
         } catch (IOException | ClassNotFoundException e) {
             throw new RuntimeException("Failed to inflate JSON object", e);
         }
