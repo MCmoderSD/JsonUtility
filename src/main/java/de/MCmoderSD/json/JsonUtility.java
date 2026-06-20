@@ -1,6 +1,5 @@
 package de.MCmoderSD.json;
 
-import de.MCmoderSD.tools.GZIP;
 import tools.jackson.databind.JsonNode;
 import tools.jackson.databind.ObjectMapper;
 
@@ -9,6 +8,8 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.concurrent.ConcurrentHashMap;
+
+import static de.MCmoderSD.tools.GZIP.*;
 
 @SuppressWarnings("unused")
 public class JsonUtility {
@@ -35,7 +36,7 @@ public class JsonUtility {
     // Helper Methods
     private static byte[] deflate(JsonNode jsonNode) {
         try {
-            return GZIP.deflateObject(jsonNode);
+            return deflateObject(jsonNode);
         } catch (IOException e) {
             throw new RuntimeException("Failed to deflate JSON object", e);
         }
@@ -43,7 +44,7 @@ public class JsonUtility {
 
     private static JsonNode inflate(byte[] compressedData) {
         try {
-            return (JsonNode) GZIP.inflateObject(compressedData);
+            return (JsonNode) inflateObject(compressedData);
         } catch (IOException | ClassNotFoundException e) {
             throw new RuntimeException("Failed to inflate JSON object", e);
         }
@@ -78,7 +79,7 @@ public class JsonUtility {
     private JsonNode readFile(String filePath) {
 
         // Load JSON from File
-        File file = new File(filePath);
+        var file = new File(filePath);
 
         // Check if file exists
         if (!file.exists()) throw new RuntimeException("File not found: " + filePath);
@@ -97,7 +98,7 @@ public class JsonUtility {
         if (cache.containsKey(resourcePath)) return inflate(cache.get(resourcePath));
 
         // Load JSON and cache it
-        JsonNode jsonNode = readResource(resourcePath);
+        var jsonNode = readResource(resourcePath);
 
         // Check if JSON was loaded successfully
         if (jsonNode == null) throw new RuntimeException("Failed to load JSON from resource: " + resourcePath);
@@ -118,7 +119,7 @@ public class JsonUtility {
         if (cache.containsKey(url)) return inflate(cache.get(url));
 
         // Load JSON and cache it
-        JsonNode jsonNode = readURL(url);
+        var jsonNode = readURL(url);
 
         // Check if JSON was loaded successfully
         if (jsonNode == null) throw new RuntimeException("Failed to load JSON from URL: " + url);
@@ -139,7 +140,7 @@ public class JsonUtility {
         if (cache.containsKey(filePath)) return inflate(cache.get(filePath));
 
         // Load JSON and cache it
-        JsonNode jsonNode = readFile(filePath);
+        var jsonNode = readFile(filePath);
 
         // Check if JSON was loaded successfully
         if (jsonNode == null) throw new RuntimeException("Failed to load JSON from file: " + filePath);

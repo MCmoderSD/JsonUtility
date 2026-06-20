@@ -27,28 +27,27 @@ Add the dependency to your `pom.xml` file:
 <dependency>
     <groupId>de.MCmoderSD</groupId>
     <artifactId>JsonUtility</artifactId>
-    <version>1.5.4</version>
+    <version>1.5.5</version>
 </dependency>
 ```
 
 ### Usage Example
 ```java
 import de.MCmoderSD.json.JsonUtility;
-import tools.jackson.databind.JsonNode;
 
 void main() {
 
     // Get JsonUtility instance
-    JsonUtility jsonUtility = JsonUtility.getInstance();
+    var jsonUtility = JsonUtility.getInstance();
 
     // Load JSON from Resource
-    JsonNode resourceJson = jsonUtility.loadResource("/config.json");
+    var resourceJson = jsonUtility.loadResource("/config.json");
 
     // Load JSON from URL
-    JsonNode urlJson = jsonUtility.loadURL("https://raw.githubusercontent.com/MCmoderSD/JsonUtility/refs/heads/master/src/test/resources/config.json");
+    var urlJson = jsonUtility.loadURL("https://raw.githubusercontent.com/MCmoderSD/JsonUtility/refs/heads/master/src/test/resources/config.json");
 
     // Load JSON from File
-    JsonNode fileJson = jsonUtility.loadFile("src/test/resources/config.json");
+    var fileJson = jsonUtility.loadFile("src/test/resources/config.json");
 
     // Print loaded JSON
     IO.println("Resource JSON: \n" + resourceJson.toPrettyString());
