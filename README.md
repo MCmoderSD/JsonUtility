@@ -27,13 +27,15 @@ Add the dependency to your `pom.xml` file:
 <dependency>
     <groupId>de.MCmoderSD</groupId>
     <artifactId>JsonUtility</artifactId>
-    <version>1.5.6</version>
+    <version>1.5.7</version>
 </dependency>
 ```
 
 ### Usage Example
 ```java
 import de.MCmoderSD.json.JsonUtility;
+
+import static java.lang.IO.println;
 
 void main() {
 
@@ -50,8 +52,8 @@ void main() {
     var fileJson = jsonUtility.loadFile("src/test/resources/config.json");
 
     // Print loaded JSON
-    IO.println("Resource JSON: \n" + resourceJson.toPrettyString());
-    IO.println("\nURL JSON: \n" + urlJson.toPrettyString());
-    IO.println("\nFile JSON: \n" + fileJson.toPrettyString());
+    println("Resource JSON: \n" + resourceJson.toPrettyString());
+    println("\nURL JSON: \n" + urlJson.toPrettyString());
+    println("\nFile JSON: \n" + fileJson.toPrettyString());
 }
 ```

@@ -1,5 +1,7 @@
 import de.MCmoderSD.json.JsonUtility;
 
+import static java.lang.IO.println;
+
 void main() {
 
     // Get JsonUtility instance
@@ -15,7 +17,7 @@ void main() {
     var fileJson = jsonUtility.loadFile("src/test/resources/config.json");
 
     // Print loaded JSON
-    IO.println("Resource JSON: \n" + resourceJson.toPrettyString());
-    IO.println("\nURL JSON: \n" + urlJson.toPrettyString());
-    IO.println("\nFile JSON: \n" + fileJson.toPrettyString());
+    println("Resource JSON: \n" + resourceJson.toPrettyString());
+    println("\nURL JSON: \n" + urlJson.toPrettyString());
+    println("\nFile JSON: \n" + fileJson.toPrettyString());
 }
