@@ -31,7 +31,7 @@ Add the dependency to your `pom.xml` file:
 </dependency>
 ```
 
-### Usage Example
+## Usage Example
 ```java
 import de.MCmoderSD.json.JsonUtility;
 
