@@ -27,7 +27,7 @@ Add the dependency to your `pom.xml` file:
 <dependency>
     <groupId>de.MCmoderSD</groupId>
     <artifactId>JsonUtility</artifactId>
-    <version>1.5.8</version>
+    <version>1.5.9</version>
 </dependency>
 ```
 
